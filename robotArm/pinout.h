@@ -58,11 +58,10 @@
 #define TEMP_0_PIN         13   // ANALOG NUMBERING
 #define TEMP_1_PIN         14   // ANALOG NUMBERING
 
-//RAMPS AUX-1
-#define STEPPER_GRIPPER_PIN_0 40
-#define STEPPER_GRIPPER_PIN_1 59
-#define STEPPER_GRIPPER_PIN_2 63
-#define STEPPER_GRIPPER_PIN_3 64
+#define BYJ_PIN_0          40
+#define BYJ_PIN_1          63
+#define BYJ_PIN_2          59
+#define BYJ_PIN_3          64
 
 #define MOTOR_IN1 32
 #define MOTOR_IN2 47

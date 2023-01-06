@@ -11,7 +11,7 @@
 #include "RampsStepper.h"
 #include "queue.h"
 #include "command.h"
-//#include "byj_gripper.h"
+#include "byj_gripper.h"
 //#include "servo_gripper.h"
 #include "equipment.h"
 #include "endstop.h"
@@ -22,7 +22,7 @@ RampsStepper stepperLower(Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, INVERSE_Y_STEPPER
 RampsStepper stepperRotate(Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, INVERSE_Z_STEPPER);
 
 
-Stepper stepper(2400, STEPPER_GRIPPER_PIN_0, STEPPER_GRIPPER_PIN_1, STEPPER_GRIPPER_PIN_2, STEPPER_GRIPPER_PIN_3);
+//Stepper stepper(2400, STEPPER_GRIPPER_PIN_0, STEPPER_GRIPPER_PIN_1, STEPPER_GRIPPER_PIN_2, STEPPER_GRIPPER_PIN_3);
 
 RampsStepper stepperExtruder(E_STEP_PIN, E_DIR_PIN, E_ENABLE_PIN, INVERSE_E0_STEPPER);
 
@@ -31,7 +31,7 @@ Endstop endstopX(X_MIN_PIN, X_DIR_PIN, X_STEP_PIN, X_ENABLE_PIN, X_MIN_INPUT, X_
 Endstop endstopY(Y_MIN_PIN, Y_DIR_PIN, Y_STEP_PIN, Y_ENABLE_PIN, Y_MIN_INPUT, Y_HOME_STEPS, HOME_DWELL);
 Endstop endstopZ(Z_MIN_PIN, Z_DIR_PIN, Z_STEP_PIN, Z_ENABLE_PIN, Z_MIN_INPUT, Z_HOME_STEPS, HOME_DWELL);
 //EQUIPMENT OBJECTS
-//BYJ_Gripper byj_gripper(BYJ_PIN_0, BYJ_PIN_1, BYJ_PIN_2, BYJ_PIN_3, BYJ_GRIP_STEPS);
+BYJ_Gripper byj_gripper(BYJ_PIN_0, BYJ_PIN_1, BYJ_PIN_2, BYJ_PIN_3, BYJ_GRIP_STEPS);
 //Servo_Gripper servo_gripper(SERVO_PIN, SERVO_GRIP_DEGREE, SERVO_UNGRIP_DEGREE);
 Equipment laser(LASER_PIN);
 Equipment pump(PUMP_PIN);
@@ -213,13 +213,13 @@ void cmdGripperOn(Cmd (&cmd)) {
   servo_motor.detach();
 
   // stepper gripper
-  stepper.setSpeed(5);
-  stepper.step(int(cmd.valueT));
-  delay(50);
-  digitalWrite(STEPPER_GRIPPER_PIN_0, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_1, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_2, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_3, LOW);
+  //stepper.setSpeed(5);
+  //stepper.step(int(cmd.valueT));
+  //delay(50);
+  //digitalWrite(STEPPER_GRIPPER_PIN_0, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_1, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_2, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_3, LOW);
   //printComment("// NOT IMPLEMENTED");
   //printFault();
 }
@@ -237,13 +237,13 @@ void cmdGripperOff(Cmd (&cmd)) {
   servo_motor.detach();
 
   // stepper gripper
-  stepper.setSpeed(5);
-  stepper.step(-int(cmd.valueT));
-  delay(50);
-  digitalWrite(STEPPER_GRIPPER_PIN_0, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_1, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_2, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_3, LOW);
+  //stepper.setSpeed(5);
+  //stepper.step(-int(cmd.valueT));
+  //delay(50);
+  //digitalWrite(STEPPER_GRIPPER_PIN_0, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_1, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_2, LOW);
+  //digitalWrite(STEPPER_GRIPPER_PIN_3, LOW);
   //printComment("// NOT IMPLEMENTED");
   //printFault();
 }
@@ -302,8 +302,18 @@ void executeCommand(Cmd cmd) {
   } else if (cmd.id == 'M') {
     switch (cmd.num) {
       //case 0: cmdEmergencyStop(); break;
-      case 3: cmdGripperOn(cmd); break;
-      case 5: cmdGripperOff(cmd); break;
+      case 3: 
+        if (GRIPPER == 0){
+          byj_gripper.cmdOn(); break;
+        } else if (GRIPPER == 1){
+          cmdGripperOn(cmd); break;
+        }
+      case 5:
+        if (GRIPPER == 0){
+          byj_gripper.cmdOff(); break;
+        } else if (GRIPPER == 1){
+          cmdGripperOff(cmd); break;
+        }
       case 17: cmdStepperOn(); break;
       case 18: cmdStepperOff(); break;
       fan.enable(true); break;
