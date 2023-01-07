@@ -5,10 +5,11 @@
 class BYJ_Gripper {
 public:
   BYJ_Gripper(int pin0, int pin1, int pin2, int pin3, int steps);
-  void cmdOn();
-  void cmdOff();
+  void cmdOn(Cmd (&cmd));
+  void cmdOff(Cmd (&cmd));
 private:
   bool direction;
+  int currentangle;
   void moveSteps();
   void setDirection();
   int byj_pin_0;

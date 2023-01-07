@@ -69,15 +69,16 @@ void setup() {
   pinMode(Q_ENABLE_PIN , OUTPUT);
 
   //GripperPins
-  pinMode(STEPPER_GRIPPER_PIN_0, OUTPUT);
-  pinMode(STEPPER_GRIPPER_PIN_1, OUTPUT);
-  pinMode(STEPPER_GRIPPER_PIN_2, OUTPUT);
-  pinMode(STEPPER_GRIPPER_PIN_3, OUTPUT);
-  digitalWrite(STEPPER_GRIPPER_PIN_0, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_1, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_2, LOW);
-  digitalWrite(STEPPER_GRIPPER_PIN_3, LOW);
-
+  /*
+  pinMode(BYJ_PIN_0, OUTPUT);
+  pinMode(BYJ_PIN_1, OUTPUT);
+  pinMode(BYJ_PIN_2, OUTPUT);
+  pinMode(BYJ_PIN_3, OUTPUT);
+  digitalWrite(BYJ_PIN_0, LOW);
+  digitalWrite(BYJ_PIN_1, LOW);
+  digitalWrite(BYJ_PIN_2, LOW);
+  digitalWrite(BYJ_PIN_3, LOW);
+  */
   //  vaccum motor control
   pinMode(MOTOR_IN1  , OUTPUT);
   pinMode(MOTOR_IN2  , OUTPUT);
@@ -304,13 +305,13 @@ void executeCommand(Cmd cmd) {
       //case 0: cmdEmergencyStop(); break;
       case 3: 
         if (GRIPPER == 0){
-          byj_gripper.cmdOn(); break;
+          byj_gripper.cmdOn(cmd); break;
         } else if (GRIPPER == 1){
           cmdGripperOn(cmd); break;
         }
       case 5:
         if (GRIPPER == 0){
-          byj_gripper.cmdOff(); break;
+          byj_gripper.cmdOff(cmd); break;
         } else if (GRIPPER == 1){
           cmdGripperOff(cmd); break;
         }

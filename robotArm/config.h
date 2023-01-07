@@ -88,12 +88,13 @@
 #define FAN_DELAY 120 // FAN ON IN SECONDS
 
 //GRIPPER SETTINGS
-#define GRIPPER 1 //GRIPPER MOTOR IN USE
+#define GRIPPER 0 //GRIPPER MOTOR IN USE
         // 0: 28BYJ-48 MICRO STEPPER MOTOR
         // 1: 9G SERVO OR MG996 SERVO EQUIVALENT
 //28BYJ GRIPPER SETTINGS
 #define BYJ_GRIP_STEPS 1200 //FTOBLER: 1200
-#define BYJ_REV_STEPS 2038 // the number of steps in one revolution of the motor (28BYJ-48)
+#define BYJ_REV_STEPS 4096.0 // the number of steps in one revolution of the motor (28BYJ-48)
+#define BYJ_STEPS_PER_DEGREE (BYJ_REV_STEPS / 360.0)
 //SERVO GRIPPER SETTINGS
 #define SERVO_GRIP_DEGREE 0.0
 #define SERVO_UNGRIP_DEGREE 40.0

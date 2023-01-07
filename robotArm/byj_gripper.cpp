@@ -1,3 +1,5 @@
+#include "config.h"
+#include "command.h"
 #include "byj_gripper.h"
 #include <Arduino.h>
 
@@ -8,23 +10,35 @@ BYJ_Gripper::BYJ_Gripper(int pin0, int pin1, int pin2, int pin3, int steps){
   byj_pin_2 = pin2;
   byj_pin_3 = pin3;
   step_cycle = 0;
+  currentangle = 40;
   pinMode(byj_pin_0, OUTPUT);
   pinMode(byj_pin_1, OUTPUT);
   pinMode(byj_pin_2, OUTPUT);
   pinMode(byj_pin_3, OUTPUT);
 }
 
-void BYJ_Gripper::cmdOn() {
+void BYJ_Gripper::cmdOn(Cmd (&cmd)) {
+  // close
   direction = true;
-  for (int i = 1; i <= grip_steps; i++) {
+  int angle = int(cmd.valueT);
+  int relangle = angle - currentangle;
+  currentangle = angle;
+  int relsteps = relangle * BYJ_STEPS_PER_DEGREE;
+  relsteps = abs(relsteps);
+  for (int i = 1; i <= relsteps; i++) {
     moveSteps();
     delay(1);
   }
 }
 
-void BYJ_Gripper::cmdOff() {
+void BYJ_Gripper::cmdOff(Cmd (&cmd)) {
   direction = false;
-  for (int i = 1; i <= grip_steps; i++) {
+  int angle = int(cmd.valueT);
+  int relangle = angle - currentangle;
+  currentangle = angle;
+  int relsteps = relangle * BYJ_STEPS_PER_DEGREE;
+  relsteps = abs(relsteps);
+  for (int i = 1; i <= relsteps; i++) {
     moveSteps();
     delay(1);
   }
