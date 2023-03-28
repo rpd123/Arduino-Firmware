@@ -2,7 +2,7 @@
 #define CONFIG_H_
 
 //SERIAL SETTINGS
-#define SERIALX Serial2
+#define SERIALX Serial
 #define BAUD 9600
 
 //ROBOT ARM LENGTH
