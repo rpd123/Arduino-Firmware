@@ -57,12 +57,12 @@
 #define STEPS_PER_REV 200 // NEMA17 STEPS PER REVOLUTION
 #if SCARA
   #define INVERSE_X_STEPPER true // true IF STEPPER MOVES OTHER WAY. 
-  #define INVERSE_Y_STEPPER true // true IF STEPPER MOVES OTHER WAY. My cartesian robot does!
+  #define INVERSE_Y_STEPPER true // true IF STEPPER MOVES OTHER WAY. 
   #define INVERSE_Z_STEPPER true // true IF STEPPER MOVES OTHER WAY
   #define INVERSE_E0_STEPPER false // true IF STEPPER MOVES OTHER WAY
 #else
   #define INVERSE_X_STEPPER false // true IF STEPPER MOVES OTHER WAY. 
-  #define INVERSE_Y_STEPPER true // true to true IF STEPPER MOVES OTHER WAY.
+  #define INVERSE_Y_STEPPER true // true to true IF STEPPER MOVES OTHER WAY. My cartesian robot does!
   #define INVERSE_Z_STEPPER false // true IF STEPPER MOVES OTHER WAY
   #define INVERSE_E0_STEPPER false // true IF STEPPER MOVES OTHER WAY
 #endif
