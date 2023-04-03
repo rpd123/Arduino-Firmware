@@ -17,7 +17,7 @@
 #define L1 153.0  // shank1 length
 #define L2 161.0  // shank2 length + gripperoffset
 #define LEAD 8.0
-#define GRIPPERFLOATHEIGHT 20.0  // mm
+#define GRIPPERFLOATHEIGHT 0.0  // mm, was 20.0
 
 //INITIAL INTERPOLATION SETTINGS
 #if SCARA
