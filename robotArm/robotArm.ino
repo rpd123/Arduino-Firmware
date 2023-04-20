@@ -4,6 +4,9 @@
 #include <Servo.h>
 //#include <VarSpeedServo.h>
 #include "pinout.h"
+#if USE_UNO
+  #include "pinout_uno.h"
+#endif
 #include "logger.h"
 #include "robotGeometry.h"
 #include "interpolation.h"
@@ -293,7 +296,14 @@ void executeCommand(Cmd cmd) {
       case 0: cmdMove(cmd); break;
       case 1: cmdMove(cmd); break;
       case 4: cmdDwell(cmd); break;
-	  case 28: homeSequence(); break;
+	  case 28:
+      if (USE_UNO){
+        homeSequence_UNO();
+        break;
+      } else {
+        homeSequence();
+        break;
+      }
       //case 21: break; //set to mm
       //case 90: cmdToAbsolute(); break;
       //case 91: cmdToRelative(); break;
@@ -339,6 +349,27 @@ void homeSequence(){
     endstopZ.home(INVERSE_Z_STEPPER); //INDICATE STEPPER HOMING DIRECDTION
   }
 
+  interpolator.setInterpolation(INITIAL_X, INITIAL_Y, INITIAL_Z, INITIAL_E0, INITIAL_X, INITIAL_Y, INITIAL_Z, INITIAL_E0);
+  Logger::logINFO("HOMING COMPLETE");
+}
+
+//DUE TO UNO CNC SHIELD LIMIT, 1 EN PIN SERVES 3 MOTORS, HENCE DIFFERENT HOMESEQUENCE IS REQUIRED
+void homeSequence_UNO(){
+  if (HOME_Y_STEPPER && HOME_X_STEPPER){
+    while (!endstopY.state() || !endstopX.state()){
+      endstopY.oneStepToEndstop(!INVERSE_Y_STEPPER);
+      endstopX.oneStepToEndstop(!INVERSE_X_STEPPER);
+    }
+    endstopY.homeOffset(!INVERSE_Y_STEPPER);
+    endstopX.homeOffset(!INVERSE_X_STEPPER);
+  } else {
+    setStepperEnable(true);
+    endstopY.homeOffset(!INVERSE_Y_STEPPER);
+    endstopX.homeOffset(!INVERSE_X_STEPPER);
+  }
+  if (HOME_Z_STEPPER){
+    endstopZ.home(INVERSE_Z_STEPPER); //INDICATE STEPPER HOMING DIRECDTION
+  }
   interpolator.setInterpolation(INITIAL_X, INITIAL_Y, INITIAL_Z, INITIAL_E0, INITIAL_X, INITIAL_Y, INITIAL_Z, INITIAL_E0);
   Logger::logINFO("HOMING COMPLETE");
 }

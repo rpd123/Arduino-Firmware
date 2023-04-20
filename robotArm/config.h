@@ -2,8 +2,11 @@
 #define CONFIG_H_
 
 //SERIAL SETTINGS
-#define SERIALX Serial
+#define SERIALX Serial2
 #define BAUD 9600
+
+//MEGA2560 BY DEFAULT, SET TO true IF UNO & CNC SHILED USED TO DRIVE ROBOT
+#define USE_UNO false
 
 //ROBOT ARM LENGTH
 //#define SHANK_LENGTH 140.0

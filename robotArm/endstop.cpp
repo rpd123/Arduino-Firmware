@@ -17,17 +17,16 @@ void Endstop::home(bool dir) {
   delayMicroseconds(5);
   if (dir==1){
     digitalWrite(dir_pin, HIGH);
-  }
-  else {
+  } else {
     digitalWrite(dir_pin, LOW);
   }
   delayMicroseconds(5);
-  bState = digitalRead(min_pin);
-  while (bState != switch_input) {
+  bState = !(digitalRead(min_pin) ^ switch_input);
+  while (!bState) {
     digitalWrite(step_pin, HIGH);
     digitalWrite(step_pin, LOW);
     delayMicroseconds(home_dwell);
-    bState = digitalRead(min_pin);
+    bState = !(digitalRead(min_pin) ^ switch_input);
   }
   homeOffset(dir);
 }
@@ -47,7 +46,26 @@ void Endstop::homeOffset(bool dir){
   }
 }
 
+void Endstop::oneStepToEndstop(bool dir){
+  digitalWrite(en_pin, LOW);
+  delayMicroseconds(5);
+  if (dir==1){
+    digitalWrite(dir_pin, HIGH);
+  } else {
+    digitalWrite(dir_pin, LOW);
+  }
+  delayMicroseconds(5);
+  bState = !(digitalRead(min_pin) ^ switch_input);
+
+  if (!bState) {
+    digitalWrite(step_pin, HIGH);
+    digitalWrite(step_pin, LOW);
+    delayMicroseconds(home_dwell);
+  }
+  bState = !(digitalRead(min_pin) ^ switch_input);
+}
+
 bool Endstop::state(){
-  bState = digitalRead(min_pin);
+  bState = !(digitalRead(min_pin) ^ switch_input);
   return bState;
 }

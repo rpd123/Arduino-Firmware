@@ -5,7 +5,10 @@ class Endstop {
   public:
     Endstop(int a_min_pin, int a_dir_pin, int a_step_pin, int a_en_pin, int a_switch_input, int a_step_offset, int a_home_dwell);
     void home(bool dir);
+    void homeOffset(bool dir);
+    void oneStepToEndstop(bool dir);
     bool state();
+    bool bState;
 
   private:
     int min_pin;
@@ -15,8 +18,7 @@ class Endstop {
     int switch_input;
     int home_dwell;
     int step_offset;
-    void homeOffset(bool dir);
-    bool bState;
+    
 };
 
 #endif
