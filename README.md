@@ -1,4 +1,4 @@
-config.h is set up for GUI+Bluetooth version, cartesian robot arm and stepper gripper.
+config.h is set up for Bluetooth version, cartesian robot arm and stepper gripper.
 
 For mini servo gripper change line
 
@@ -8,6 +8,7 @@ to
 
 #define GRIPPER 1 //GRIPPER MOTOR IN USE
 
+
 For SCARA version change line
 
 #define SCARA false
@@ -16,10 +17,15 @@ to
 
 #define SCARA true
 
-For RPi (etc) USB version (version2) change
+
+For USB version change
 
 #define SERIALX Serial2
 
 to
 
 #define SERIALX Serial
+
+
+If using the mini servo use a separate power supply to power it.
+
